@@ -1,0 +1,72 @@
+.message-list {
+    display: grid;
+    gap: 12px;
+    max-width: 640px;
+    margin: 24px auto;
+}
+
+.app-message {
+    --accent: #4f46e5;
+    --surface: #eef2ff;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    color: #1f2937;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, white);
+    border-left: 4px solid var(--accent);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.07);
+}
+
+.app-message--success {
+    --accent: #16a34a;
+    --surface: #f0fdf4;
+}
+
+.app-message--error {
+    --accent: #dc2626;
+    --surface: #fef2f2;
+}
+
+.app-message--warning {
+    --accent: #d97706;
+    --surface: #fffbeb;
+}
+
+.app-message_icon {
+    display: grid;
+    flex: 0 0 30px;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background: var(--accent);
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.app-message_text {
+    flex: 1;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.app-message_close {
+    padding: 2px 6px;
+    color: #6b7280;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.app-message_close:hover,
+.app-message_close:focus-visible {
+    color: #111827;
+    background: rgba(17, 24, 39, 0.08);
+}
