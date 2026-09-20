@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
 
 user = get_user_model()
 
@@ -14,3 +15,18 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.display_name or self.user.username
+
+class Post(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    author = models.ForeignKey(user, on_delete=models.CASCADE)
+    caption = models.TextField(max_length=2200, blank=True)
+    image = models.ImageField(upload_to="posts/", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    likes = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Post by {self.author.username} ({self.created_at:%Y-%m-%d})"
