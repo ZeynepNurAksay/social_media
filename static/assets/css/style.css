@@ -15,6 +15,100 @@ body{
 /* Buttons
 ------------------------------------- */
 
+.social-header .header_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 72px;
+  }
+
+  .social-header .left-side {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .social-header .header_search {
+    width: 100%;
+    max-width: 360px;
+    min-width: 0;
+  }
+
+  .social-header .right-side {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: 12px;
+  }
+
+  .social-header .right-side img.header-avatar {
+    display: block;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .social-header .right-side .uk-inline {
+    flex: 0 0 auto;
+  }
+
+  .social-header .post-dropdown {
+  width: min(680px, calc(100vw - 32px));
+  max-width: none;
+  max-height: min(80vh, 720px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+  .social-header .header-links-item,
+  .social-header .header-avatar {
+    flex-shrink: 0;
+  }
+
+  /* Keep large post images inside their cards. */
+  .container img {
+    max-width: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .social-header .header_inner {
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .social-header .left-side {
+      flex-basis: 100%;
+    }
+
+    .social-header .header_search {
+      max-width: none;
+    }
+
+    .social-header .right-side {
+      width: 100%;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .social-header .right-side .uk-inline > button {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+  }
+
+.post-dropdown {
+  width: min(420px, calc(100vw - 32px));
+  box-sizing: border-box;
+}
+
 .back-home {
   display: inline-flex;
   align-items: center;
@@ -1682,6 +1776,20 @@ header .header_inner .right-side .header-avatar {
   border-radius: 5px;
   overflow: hidden;
   /* simplebar scrollbar */
+}
+
+.header-links-item svg {
+  width: 20px;
+  height: 20px;
+}
+
+.header-links-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
 }
 
 .header_dropdown ul {

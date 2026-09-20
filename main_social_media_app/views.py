@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile
+from .models import Profile, Post
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'index.html')
+    profile = Profile.objects.get(display_name=request.user.username)
+    posts = Post.objects.all()
+    return render(request, 'index.html', {
+        'user': request.user,
+        'profile': profile,
+        'posts': posts
+    })
 
 def register(request):
     if request.method == "POST":
@@ -72,7 +79,7 @@ def settings(request):
         website = request.POST['website']
 
         if request.FILES.get('avatar') == None:
-            avatar = request.user.avatar
+            avatar = profile.avatar
         else: 
             avatar = request.FILES.get('avatar')
 
@@ -93,3 +100,23 @@ def settings(request):
         'profile': profile,
         'user': request.user
     })
+
+@login_required(login_url='login')
+def upload(request):
+
+    profile = Profile.objects.get(user = request.user)
+
+    if request.method == "POST":
+        if request.FILES.get("image") is None:
+            author = profile
+            text = request.POST["caption"]
+            post = Post.objects.create(author=author, text=text)
+            post.save()
+        else:
+            image = request.FILES.get("image")
+            caption = request.POST['caption']
+            post = Post.objects.create(author=profile, image=image, caption=caption)
+            post.save()
+        
+        return redirect('index')
+    return HttpResponse("<h1>Upload</h1>")

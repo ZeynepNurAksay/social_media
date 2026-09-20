@@ -18,7 +18,12 @@ class Profile(models.Model):
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    author = models.ForeignKey(user, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        "Profile",
+        on_delete=models.CASCADE,
+        related_name="posts",
+    )
+    text = models.CharField(max_length=2200, blank=True)
     caption = models.TextField(max_length=2200, blank=True)
     image = models.ImageField(upload_to="posts/", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -29,4 +34,4 @@ class Post(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Post by {self.author.username} ({self.created_at:%Y-%m-%d})"
+        return f"Post by {self.author.display_name} ({self.created_at:%Y-%m-%d})"
