@@ -27,6 +27,9 @@ def register(request):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
+        user = auth.authenticate(username=username, password=password)
+        auth.login(request, user)
+
         user = User.objects.get(username = username)
         profile = Profile.objects.create(
             user=user, 
@@ -55,3 +58,38 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('login')
+
+@login_required(login_url='login')
+def settings(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        bio = request.POST['bio']
+        location = request.POST['location']
+        website = request.POST['website']
+
+        if request.FILES.get('avatar') == None:
+            avatar = request.user.avatar
+        else: 
+            avatar = request.FILES.get('avatar')
+
+        request.user.username = username
+        profile.display_name = username
+        request.user.email = email
+        profile.bio = bio
+        profile.location = location
+        profile.website = website
+        profile.avatar = avatar
+
+        request.user.save()
+        profile.save()
+
+        return redirect('settings')
+    
+    return render(request, 'setting.html', {
+        'profile': profile,
+        'user': request.user
+    })
