@@ -35,3 +35,11 @@ class Post(models.Model):
 
     def __str__(self):
         return f"Post by {self.author.display_name} ({self.created_at:%Y-%m-%d})"
+
+class Like(models.Model):
+    post_id = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="likes_posts")
+    liked_by = models.ForeignKey(
+        "Profile",
+        on_delete=models.CASCADE,
+        related_name="liked_by",
+    )

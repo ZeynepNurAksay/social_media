@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Post
+from .models import Profile, Post, Like
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
@@ -119,4 +119,24 @@ def upload(request):
             post.save()
         
         return redirect('index')
-    return HttpResponse("<h1>Upload</h1>")
+    return redirect('index')
+
+@login_required(login_url='login')
+def like_post(request):
+    profile = Profile.objects.get(user=request.user)
+    post_id = request.GET.get("post_id")
+    post = Post.objects.get(id = post_id)
+    like, created = Like.objects.get_or_create(
+        post_id=post,
+        liked_by=profile,
+    )
+
+    if created:
+        post.likes += 1
+        post.save()
+    else:
+        like.delete()
+        post.likes -= 1
+        post.save()
+
+    return redirect('index')
